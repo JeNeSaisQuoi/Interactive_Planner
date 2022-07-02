@@ -13,7 +13,7 @@ connection = sqlite3.connect('sqlite3_tkinter_proj.db')
 cursor = connection.cursor()
 
 # need to add handling to check if db file exists or not
-# if already exists, use the next line to create a SQLite3 TABLE
+# if it doesn't exist, use the next line to create a SQLite3 TABLE
 # cursor.execute('CREATE TABLE entries (id INTEGER PRIMARY KEY, date TEXT, note TEXT)')
 
 
