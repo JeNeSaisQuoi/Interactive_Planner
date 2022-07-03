@@ -6,6 +6,7 @@
 
 import tkinter as tk
 from tkinter import WORD
+from tkinter import Menu
 import sqlite3
 from datetime import datetime
 
@@ -13,7 +14,7 @@ connection = sqlite3.connect('sqlite3_tkinter_proj.db')
 cursor = connection.cursor()
 
 # need to add handling to check if db file exists or not
-# if it doesn't exist, use the next line to create a SQLite3 TABLE
+# if already exists, use the next line to create a SQLite3 TABLE
 # cursor.execute('CREATE TABLE entries (id INTEGER PRIMARY KEY, date TEXT, note TEXT)')
 
 
@@ -21,13 +22,45 @@ cursor = connection.cursor()
 root = tk.Tk(className='Interactive Planner BETA')
 root.geometry("500x500")
 
-# create textbox widget
+
+
+#--- MENU BAR ---
+
+def destroy(): # closes root window
+    root.destroy()
+    
+def search():
+    return "insert search logic via SQL commands"
+
+def helpp():
+    return "open new window for help? perhaps a website "
+
+def about():
+    return "about"
+
+menubar = tk.Menu(root)
+filemenu = Menu(menubar, tearoff=0)
+filemenu.add_command(label="Search", command=search)
+filemenu.add_separator()
+filemenu.add_command(label="Exit", command=destroy)
+menubar.add_cascade(label="File", menu=filemenu)
+
+helpmenu = Menu(menubar, tearoff=0)
+helpmenu.add_command(label="Help", command=helpp)
+helpmenu.add_command(label="About...", command=about)
+menubar.add_cascade(label="Help", menu=helpmenu)
+root.config(menu=menubar)
+
+
+#--- TEXT WIDGET ---
 message="Hey fuck you"
 text_box = tk.Text(root, height=0, width=0, wrap=WORD)
 text_box.insert('end', message)
 text_box.config(state='normal')
 text_box.pack(expand=True, fill=tk.BOTH)
 
+
+#--- BUTTON WIDGET ---
 def submit():
     # do shit here, called below using 'command=submit' parameter
     date = datetime.now()
@@ -39,11 +72,9 @@ def submit():
         connection.commit()
         text_box.delete(1.0, 'end')
         print("A note was submitted")
-        
 
-# create button widget
 button = tk.Button(root, text='Submit', command=submit)
 button.pack()
 
-# run the main loop to display the window continuously
+#--- MAIN LOOP --- displays the window continuously
 root.mainloop()
