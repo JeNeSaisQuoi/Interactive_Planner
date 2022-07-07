@@ -23,37 +23,37 @@ root = tk.Tk(className='Interactive Planner BETA')
 root.geometry("500x500")
 
 
-
 #--- MENU BAR ---
 
 def destroy(): # closes root window
     root.destroy()
     
 def search():
-    return "insert search logic via SQL commands"
+    print("insert search logic via SQL commands")
 
 def helpp():
-    return "open new window for help? perhaps a website "
+    print("open new window for help? perhaps a website ")
 
 def about():
-    return "about"
+    print("about")
 
 menubar = tk.Menu(root)
 filemenu = Menu(menubar, tearoff=0)
-filemenu.add_command(label="Search", command=search)
+filemenu.add_command(label="Search", underline=0, command=search)
 filemenu.add_separator()
-filemenu.add_command(label="Exit", command=destroy)
-menubar.add_cascade(label="File", menu=filemenu)
+filemenu.add_command(label="Exit", underline=1, command=destroy)
+menubar.add_cascade(label="File", menu=filemenu, underline=0)
+
 
 helpmenu = Menu(menubar, tearoff=0)
-helpmenu.add_command(label="Help", command=helpp)
-helpmenu.add_command(label="About...", command=about)
-menubar.add_cascade(label="Help", menu=helpmenu)
+helpmenu.add_command(label="Help", underline=0, command=helpp)
+helpmenu.add_command(label="About...", underline=0, command=about)
+menubar.add_cascade(label="Help", menu=helpmenu, underline=0)
 root.config(menu=menubar)
 
 
 #--- TEXT WIDGET ---
-message="Hey fuck you"
+message="Insert note or event here ..."
 text_box = tk.Text(root, height=0, width=0, wrap=WORD)
 text_box.insert('end', message)
 text_box.config(state='normal')
@@ -66,7 +66,7 @@ def submit():
     date = datetime.now()
     data = text_box.get(1.0, 'end')
     if len(data) <=1: #tkinter seems to adda \n by default, rly annoying ??
-        print("No data found to submit")
+        print("No data to submit")
     else:
         cursor.execute('INSERT INTO entries(date, note) VALUES(?, ?)', (date, data,))
         connection.commit()
