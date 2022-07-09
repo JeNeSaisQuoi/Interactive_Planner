@@ -24,7 +24,7 @@ root.geometry("500x500")
 
 #--- FRAME WIDGETS ---
 # frames will be displayed based on menu navigations
-# need to find best way to move between frames. modularize ? build a function?
+# need to find best way to move between frames. modularize? build function? self_init? ?
 record_frame = tk.Frame(root, bg='#F6EED2')
 splash_frame = tk.Frame(root, bg='#F6EED2')
 helpp_frame = tk.Frame(root, bg='orange')
@@ -52,8 +52,10 @@ def helpp():
 def about():
     print("about")
 
-# create the file menu 
+
+#create the MENU instance
 menubar = tk.Menu(root)
+# file menu 
 filemenu = Menu(menubar, tearoff=0)
 filemenu.add_command(label="My Notes", underline=0, command=splash)
 filemenu.add_command(label="New", underline=0, command=new)
@@ -61,8 +63,7 @@ filemenu.add_command(label="Search", underline=0, command=search)
 filemenu.add_separator()
 filemenu.add_command(label="Exit", underline=1, command=destroy)
 menubar.add_cascade(label="File", menu=filemenu, underline=0)
-
-# create the help menu
+# help menu
 helpmenu = Menu(menubar, tearoff=0)
 helpmenu.add_command(label="Help", underline=0, command=helpp)
 helpmenu.add_command(label="About...", underline=0, command=about)
@@ -70,11 +71,11 @@ menubar.add_cascade(label="Help", menu=helpmenu, underline=0)
 root.config(menu=menubar)
 
 
-#--- TEXT WIDGET ---
+#--- TEXT BOX WIDGET ---
 message="Insert note or event here ..."
 text_box = tk.Text(record_frame, height=0, width=0, wrap=WORD)
 text_box.insert('end', message)
-text_box.config(state='normal')
+text_box.config(state='normal', bg='#F6EED2')
 text_box.pack(expand=True, fill=tk.BOTH)
 
 
@@ -94,22 +95,23 @@ def submit(): # submit a note
         print("A note was submitted")
 
     
-def cancel(): # cancel note-taking
+def cancel(): # cancel note-taking window
     record_frame.forget()
     splash_frame.pack(expand=True, fill=tk.BOTH)
 
 
 submit_button = tk.Button(record_frame, text='Submit', command=submit)
 cancel_button = tk.Button(record_frame, text='Cancel', command=cancel)
-submit_button.pack()
-cancel_button.pack()
+# pack buttons
+cancel_button.pack(side=tk.RIGHT)
+submit_button.pack(side=tk.RIGHT)
 
 
-# pack splash_frame upon startup
-# create label for splash page
-splash_label = tk.Label(splash_frame, text='Welcome to this note-taking aplication, comrade.')
+#--- SPLASH PAGE --- pack on startup
+# create a label for splash page
+splash_label = tk.Label(splash_frame, bg='#F6EED2', text='--SPLASH PAGE--\nWelcome to this note-taking aplication, comrade.')
 splash_frame.pack(expand=True, fill=tk.BOTH)
-splash_label.pack(pady=10)
+splash_label.pack(pady=25)
 
 
 #--- MAIN LOOP --- displays the window continuously
